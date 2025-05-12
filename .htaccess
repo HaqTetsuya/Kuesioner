@@ -1,6 +1,4 @@
-
-git init
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/HaqTetsuya/Kuesioner.git
-git push -u origin main
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
