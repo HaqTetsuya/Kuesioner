@@ -6,8 +6,8 @@ class Dashboard extends CI_Controller {
         parent::__construct();
         
         // Pastikan hanya user yang sudah login yang bisa akses
-        if (!$this->session->userdata('logged_in')) {
-            redirect('login');
+        if (!$this->session->userdata('status')) {
+            redirect('auth/login');
         }
 
         $this->load->model(['Kuesioner_model', 'Pertanyaan_model']);
@@ -28,7 +28,7 @@ class Dashboard extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('layout/header');
-            $this->load->view('dashboard/tambah_kuesioner');
+            $this->load->view('dashboard/tambah_pertanyaan');
             $this->load->view('layout/footer');
         } else {
             $data = [

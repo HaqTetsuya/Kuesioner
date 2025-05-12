@@ -8,7 +8,7 @@ class Kuesioner extends CI_Controller {
     }
 
     // Halaman isi kuesioner untuk responden
-    public function isi($kuesioner_id) {
+    public function isi($kuesioner_id) {		
         $data['kuesioner'] = $this->Kuesioner_model->get_kuesioner_detail($kuesioner_id);
         
         $this->load->view('layout/header');
