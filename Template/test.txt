@@ -1,0 +1,34 @@
+skala-likert-app/
+│
+├── application/
+│   ├── controllers/
+│   │   ├── Dashboard.php
+│   │   ├── Kuesioner.php
+│   │   └── Pertanyaan.php
+│   │
+│   ├── models/
+│   │   ├── Kuesioner_model.php
+│   │   ├── Pertanyaan_model.php
+│   │   └── Responden_model.php
+│   │
+│   └── views/
+│       ├── dashboard/
+│       │   ├── index.php
+│       │   ├── kuesioner.php
+│       │   └── pertanyaan.php
+│       │
+│       ├── kuesioner/
+│       │   └── isi_kuesioner.php
+│       │
+│       └── layout/
+│           ├── header.php
+│           └── footer.php
+│
+├── assets/
+│   ├── css/
+│   │   └── custom.css
+│   └── js/
+│       └── custom.js
+│
+└── database/
+    └── skala_likert.sql
