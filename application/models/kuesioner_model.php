@@ -33,8 +33,9 @@ class Kuesioner_model extends CI_Model {
     }
     
     // Fungsi untuk jawaban responden
-    public function simpan_jawaban($data) {
+    public function simpan_jawaban_likert($data) {
         $this->db->insert('responden', [
+			'user_id' => $data['responden'],
             'nama' => $data['nama'],
             'email' => $data['email'],
             'tanggal' => date('Y-m-d H:i:s')
