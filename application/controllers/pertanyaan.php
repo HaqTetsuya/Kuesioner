@@ -15,9 +15,7 @@ class Pertanyaan extends CI_Controller {
     }
 
     // Halaman tambah pertanyaan untuk kuesioner tertentu
-    public function tambah($kuesioner_id) {
-        $data['kuesioner'] = $this->Kuesioner_model->get_kuesioner_detail($kuesioner_id);
-
+    public function tambah() {
         $this->form_validation->set_rules('teks_pertanyaan', 'Teks Pertanyaan', 'required');
 
         if ($this->form_validation->run() == FALSE) {
@@ -26,14 +24,11 @@ class Pertanyaan extends CI_Controller {
             $this->load->view('layout/footer');
         } else {
             $data_pertanyaan = [
-                'kuesioner_id' => $kuesioner_id,
                 'teks_pertanyaan' => $this->input->post('teks_pertanyaan')
             ];
-
-            $this->Pertanyaan_model->create_pertanyaan($data_pertanyaan);
-            
+            $this->Pertanyaan_model->create_pertanyaan($data_pertanyaan);            
             $this->session->set_flashdata('success', 'Pertanyaan berhasil ditambahkan');
-            redirect('dashboard/edit_kuesioner/'.$kuesioner_id);
+            redirect('dashboard/tambah_pertanyaan');
         }
     }
 

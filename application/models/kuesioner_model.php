@@ -1,51 +1,84 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kuesioner_model extends CI_Model
-{
-    public function __construct()
-    {
+class Kuesioner_model extends CI_Model {
+    
+    public function __construct() {
         parent::__construct();
+        $this->load->database();
     }
-
-    // Membuat kuesioner baru
-    public function create_kuesioner($data)
-    {
-        return $this->db->insert('kuesioner', $data);
+    
+    // Fungsi CRUD untuk pertanyaan kuesioner
+    public function get_all_pertanyaan() {
+        return $this->db->get('pertanyaan')->result();
     }
-
-    // Mendapatkan semua kuesioner milik user
-    public function get_kuesioner_by_user($user_id)
-    {
-        return $this->db->where('user_id', $user_id)
-            ->get('kuesioner')
-            ->result();
+    
+    public function get_pertanyaan($id) {
+        return $this->db->get_where('pertanyaan', ['id' => $id])->row();
     }
-
-    // Update kuesioner
-    public function update_kuesioner($id, $data)
-    {
-        return $this->db->where('id', $id)
-            ->update('kuesioner', $data);
+    
+    public function tambah_pertanyaan($data) {
+        $this->db->insert('pertanyaan', $data);
+        return $this->db->insert_id();
     }
-
-    // Hapus kuesioner
-    public function delete_kuesioner($id)
-    {
-        return $this->db->delete('kuesioner', ['id' => $id]);
+    
+    public function update_pertanyaan($id, $data) {
+        $this->db->update('pertanyaan', $data, ['id' => $id]);
+        return $this->db->affected_rows();
     }
-
-    // Mendapatkan detail kuesioner beserta pertanyaannya
-    public function get_kuesioner_detail($id)
-    {
-        $kuesioner = $this->db->where('id', $id)
-            ->get('kuesioner')
-            ->row();
-
-        $kuesioner->pertanyaan = $this->db->where('kuesioner_id', $id)
-            ->get('pertanyaan')
-            ->result();
-
-        return $kuesioner;
+    
+    public function hapus_pertanyaan($id) {
+        $this->db->delete('pertanyaan', ['id' => $id]);
+        return $this->db->affected_rows();
+    }
+    
+    // Fungsi untuk jawaban responden
+    public function simpan_jawaban($data) {
+        $this->db->insert('responden', [
+            'nama' => $data['nama'],
+            'email' => $data['email'],
+            'tanggal' => date('Y-m-d H:i:s')
+        ]);
+        
+        $responden_id = $this->db->insert_id();
+        
+        foreach ($data['jawaban'] as $pertanyaan_id => $nilai) {
+            $this->db->insert('jawaban', [
+                'responden_id' => $responden_id,
+                'pertanyaan_id' => $pertanyaan_id,
+                'nilai' => $nilai
+            ]);
+        }
+        
+        return $responden_id;
+    }
+    
+    // Mendapatkan hasil jawaban
+    public function get_hasil_jawaban() {
+        $this->db->select('r.id, r.nama, r.email, r.tanggal');
+        $this->db->from('responden r');
+        return $this->db->get()->result();
+    }
+    
+    public function get_detail_jawaban($responden_id) {
+        $this->db->select('p.pertanyaan, j.nilai');
+        $this->db->from('jawaban j');
+        $this->db->join('pertanyaan p', 'p.id = j.pertanyaan_id');
+        $this->db->where('j.responden_id', $responden_id);
+        return $this->db->get()->result();
+    }
+    
+    // Mendapatkan statistik hasil jawaban
+    public function get_statistik_jawaban() {
+        $query = $this->db->query('
+            SELECT p.id, p.pertanyaan, 
+                   AVG(j.nilai) as rata_rata, 
+                   COUNT(j.id) as jumlah_jawaban
+            FROM pertanyaan p
+            LEFT JOIN jawaban j ON p.id = j.pertanyaan_id
+            GROUP BY p.id, p.pertanyaan
+        ');
+        
+        return $query->result();
     }
 }
