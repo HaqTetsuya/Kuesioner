@@ -15,7 +15,6 @@ class Home extends CI_Controller {
             'title' => 'Beranda',
             'page' => 'home'
         ];
-        
         // Load view dengan template
         $this->load->view('layout/header', $data);
         $this->load->view('layout/sidebar', $data);
@@ -31,11 +30,12 @@ class Home extends CI_Controller {
         ];
         
         // Load view dengan template
-        $this->load->view('layout/header', $data);
-        $this->load->view('layout/sidebar', $data);
-        $this->load->view('books/index', $data); // Ganti content dengan view spesifik
-        $this->load->view('layout/footer', $data);
+        $this->load->view('layout/1header', $data);
+        $this->load->view('public/thank_you', $data); // Ganti content dengan view spesifik
+        $this->load->view('layout/1footer', $data);
     }
+
+    
     
     // Fungsi lainnya...
 }

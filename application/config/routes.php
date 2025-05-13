@@ -10,9 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Routes untuk public
-$route['default_controller'] = 'public';
-$route['submit'] = 'public/submit';
-$route['thank-you'] = 'public/thank_you';
+$route['default_controller'] = 'publics';
+$route['submit'] = 'publics/submit';
+$route['thank-you'] = 'publics/thank_you';
 
 // Routes untuk dashboard admin
 $route['dashboard'] = 'dashboard';

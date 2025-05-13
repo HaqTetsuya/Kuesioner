@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Public extends CI_Controller {
+class Publics extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
@@ -14,7 +14,9 @@ class Public extends CI_Controller {
     // Halaman utama untuk mengisi kuesioner
     public function index() {
         $data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();
+        $this->load->view('layout/header', $data);
         $this->load->view('public/kuesioner_form', $data);
+        $this->load->view('layout/footer', $data);
     }
     
     // Proses simpan jawaban kuesioner

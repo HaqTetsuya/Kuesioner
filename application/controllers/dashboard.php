@@ -11,15 +11,23 @@ class Dashboard extends CI_Controller {
         $this->load->library('form_validation');
         
         // Cek login status (asumsikan auth sudah ada)
-        if (!$this->session->userdata('logged_in')) {
+        if (!$this->session->userdata('status')) {
             redirect('auth/login');
         }
     }
     
     // Dashboard utama
     public function index() {
+        $data = [
+            'title' => 'Beranda',
+            'page' => 'home'
+        ];
         $data['statistik'] = $this->kuesioner_model->get_statistik_jawaban();
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/index', $data);
+        $this->load->view('layout/footer', $data);
+        
     }
     
     // === CRUD PERTANYAAN ===
@@ -27,12 +35,18 @@ class Dashboard extends CI_Controller {
     // Daftar semua pertanyaan
     public function pertanyaan() {
         $data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/pertanyaan/index', $data);
+        $this->load->view('layout/footer', $data);
     }
     
     // Halaman tambah pertanyaan
     public function tambah_pertanyaan() {
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/pertanyaan/tambah');
+        $this->load->view('layout/footer', $data);
     }
     
     // Proses simpan pertanyaan baru
@@ -40,7 +54,10 @@ class Dashboard extends CI_Controller {
         $this->form_validation->set_rules('pertanyaan', 'Pertanyaan', 'required');
         
         if ($this->form_validation->run() == FALSE) {
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/sidebar', $data);
             $this->load->view('dashboard/pertanyaan/tambah');
+            $this->load->view('layout/footer', $data);
         } else {
             $data = [
                 'pertanyaan' => $this->input->post('pertanyaan'),
@@ -56,7 +73,10 @@ class Dashboard extends CI_Controller {
     // Halaman edit pertanyaan
     public function edit_pertanyaan($id) {
         $data['pertanyaan'] = $this->kuesioner_model->get_pertanyaan($id);
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/pertanyaan/edit', $data);
+        $this->load->view('layout/footer', $data);
     }
     
     // Proses update pertanyaan
@@ -65,7 +85,10 @@ class Dashboard extends CI_Controller {
         
         if ($this->form_validation->run() == FALSE) {
             $data['pertanyaan'] = $this->kuesioner_model->get_pertanyaan($id);
+            $this->load->view('layout/header', $data);
+            $this->load->view('layout/sidebar', $data);
             $this->load->view('dashboard/pertanyaan/edit', $data);
+            $this->load->view('layout/footer', $data);
         } else {
             $data = [
                 'pertanyaan' => $this->input->post('pertanyaan'),
@@ -90,19 +113,28 @@ class Dashboard extends CI_Controller {
     // Daftar semua responden
     public function hasil() {
         $data['responden'] = $this->kuesioner_model->get_hasil_jawaban();
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/hasil/index', $data);
+        $this->load->view('layout/footer', $data);
     }
     
     // Detail jawaban per responden
     public function detail_jawaban($responden_id) {
         $data['responden'] = $this->db->get_where('responden', ['id' => $responden_id])->row();
         $data['jawaban'] = $this->kuesioner_model->get_detail_jawaban($responden_id);
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/hasil/detail', $data);
+        $this->load->view('layout/footer', $data);
     }
     
     // Laporan statistik
     public function statistik() {
         $data['statistik'] = $this->kuesioner_model->get_statistik_jawaban();
+        $this->load->view('layout/header', $data);
+        $this->load->view('layout/sidebar', $data);
         $this->load->view('dashboard/statistik', $data);
+        $this->load->view('layout/footer', $data);
     }
 }

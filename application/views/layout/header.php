@@ -13,13 +13,13 @@
     
     <!-- Font Tulisan Tangan -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     
     <style>
         :root {
-            --main-font: 'Indie Flower', cursive;
+            --main-font: 'Patrick Hand', cursive;
             --accent-font: 'Caveat', cursive;
             --bg-color: #f8f9fa;
             --text-color: #212529;
