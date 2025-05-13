@@ -16,7 +16,10 @@ class Publics extends CI_Controller {
     public function index() {
         $user_id= $this->session->userdata('id');
         $data['user'] = $this->account_model->getUserById($user_id);
-        $data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();
+		$data['user_id'] = $user_id;
+        //$data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();		
+		$data['pertanyaan'] = $this->kuesioner_model->get_pertanyaan_likert();
+		$data['pertanyaan_text'] = $this->kuesioner_model->get_pertanyaan_text();		
         $this->load->view('layout/header', $data);
         $this->load->view('public/kuesioner_form', $data);
         $this->load->view('layout/footer', $data);
@@ -37,6 +40,7 @@ class Publics extends CI_Controller {
         } else {
             // Simpan jawaban
             $data = [
+                'responden' => $this->input->post('responden'),
                 'nama' => $this->input->post('nama'),
                 'email' => $this->input->post('email'),
                 'jawaban' => $this->input->post('jawaban')

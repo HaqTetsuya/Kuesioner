@@ -8,10 +8,18 @@ class Kuesioner_model extends CI_Model {
         $this->load->database();
     }
     
-    // Fungsi CRUD untuk pertanyaan kuesioner
+    
     public function get_all_pertanyaan() {
-        return $this->db->get('pertanyaan')->result();
-    }
+		return $this->db->get_where('pertanyaan')->result();
+	}
+	
+	public function get_pertanyaan_likert() {
+		return $this->db->get_where('pertanyaan', ['type' => 'likert'])->result();
+	}
+	
+	public function get_pertanyaan_text() {
+		return $this->db->get_where('pertanyaan', ['type' => 'text'])->result();
+	}
     
     public function get_pertanyaan($id) {
         return $this->db->get_where('pertanyaan', ['id' => $id])->row();
