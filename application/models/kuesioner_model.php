@@ -39,28 +39,36 @@ class Kuesioner_model extends CI_Model {
         $this->db->delete('pertanyaan', ['id' => $id]);
         return $this->db->affected_rows();
     }
-    
-    // Fungsi untuk jawaban responden
-    public function simpan_jawaban_likert($data) {
+	
+	public function tambah_responden($data) {
         $this->db->insert('responden', [
 			'user_id' => $data['responden'],
             'nama' => $data['nama'],
             'email' => $data['email'],
             'tanggal' => date('Y-m-d H:i:s')
         ]);
-        
-        $responden_id = $this->db->insert_id();
-        
-        foreach ($data['jawaban'] as $pertanyaan_id => $nilai) {
-            $this->db->insert('jawaban', [
+    }		   
+    // Fungsi untuk jawaban responden
+    public function simpan_jawaban_likert($responden_id, $data_likert) {                               
+        foreach ($data_likert['jawaban'] as $pertanyaan_id => $nilai) {
+            $this->db->insert('jawaban_likert', [
                 'responden_id' => $responden_id,
                 'pertanyaan_id' => $pertanyaan_id,
                 'nilai' => $nilai
             ]);
-        }
-        
-        return $responden_id;
+        }               
     }
+	
+	public function simpan_jawaban_text($responden_id, $data_text) {
+		foreach ($data_text['jawaban_text'] as $pertanyaan_id => $jawaban) {
+			$this->db->insert('jawaban_tekstual', [
+				'responden_id' => $responden_id,
+				'pertanyaan_id' => $pertanyaan_id,
+				'jawaban' => $jawaban
+			]);
+		}
+	}
+
     
     // Mendapatkan hasil jawaban
     public function get_hasil_jawaban() {
