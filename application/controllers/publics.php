@@ -6,6 +6,7 @@ class Publics extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('kuesioner_model');
+        $this->load->model('account_model');
         $this->load->helper('url');
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -13,6 +14,8 @@ class Publics extends CI_Controller {
     
     // Halaman utama untuk mengisi kuesioner
     public function index() {
+        $user_id= $this->session->userdata('id');
+        $data['user'] = $this->account_model->getUserById($user_id);
         $data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();
         $this->load->view('layout/header', $data);
         $this->load->view('public/kuesioner_form', $data);
@@ -21,10 +24,7 @@ class Publics extends CI_Controller {
     
     // Proses simpan jawaban kuesioner
     public function submit() {
-        // Validasi form
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        
+        // Validasi form        
         // Get semua pertanyaan untuk validasi jawaban
         $pertanyaan = $this->kuesioner_model->get_all_pertanyaan();
         foreach ($pertanyaan as $p) {
@@ -32,9 +32,8 @@ class Publics extends CI_Controller {
         }
         
         if ($this->form_validation->run() == FALSE) {
-            // Jika validasi gagal, kembali ke form
-            $data['pertanyaan'] = $pertanyaan;
-            $this->load->view('public/kuesioner_form', $data);
+            // Jika validasi gagal, kembali ke form            
+            redirect('');
         } else {
             // Simpan jawaban
             $data = [
@@ -43,17 +42,19 @@ class Publics extends CI_Controller {
                 'jawaban' => $this->input->post('jawaban')
             ];
             
-            $responden_id = $this->kuesioner_model->simpan_jawaban($data);
+            $this->kuesioner_model->simpan_jawaban($data);
             
-            // Tampilkan halaman terima kasih
-            $data['message'] = 'Terima kasih telah mengisi kuesioner.';
-            $this->load->view('public/thank_you', $data);
+            redirect('thank_you');
         }
     }
     
     // Halaman terima kasih setelah submit
     public function thank_you() {
+        $user_id= $this->session->userdata('id');
+        $data['user'] = $this->account_model->getUserById($user_id);
         $data['message'] = 'Terima kasih telah mengisi kuesioner.';
+        $this->load->view('layout/header', $data);
         $this->load->view('public/thank_you', $data);
+        $this->load->view('layout/footer', $data);
     }
 }
