@@ -38,67 +38,88 @@
 
     <h3 class="fw-bold fs-4 mb-3">Jawaban</h3>
 
-    <?php if (!empty($jawaban)): ?>
-      <div class="row">
-        <div class="col-md-8">
-          <div class="table-responsive">
-            <table class="table table-hover table-cute">
-              <thead>
-                <tr>
-                  <th>Pertanyaan</th>
-                  <th class="text-center" width="100">Nilai</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                $total = 0;
-                foreach ($jawaban as $j):
-                  $total += $j->nilai;
-                ?>
-                  <tr>
-                    <td><?php echo $j->pertanyaan; ?></td>
-                    <td class="text-center">
-                      <?php
-                      $bgColor = '';
-                      $textColor = 'text-white';
-                      if ($j->nilai == 1) $bgColor = 'bg-danger';
-                      elseif ($j->nilai == 2) $bgColor = 'bg-warning';
-                      elseif ($j->nilai == 3) $bgColor = 'bg-info';
-                      elseif ($j->nilai == 4) $bgColor = 'bg-primary';
-                      elseif ($j->nilai == 5) $bgColor = 'bg-success';
-                      ?>
-                      <span class="badge rounded-pill <?php echo $bgColor; ?> <?php echo $textColor; ?> px-3 py-2"><?php echo $j->nilai; ?></span>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Rata-rata</th>
-                  <th class="text-center">
-                    <span class="badge rounded-pill bg-dark px-3 py-2">
-                      <?php echo number_format($total / count($jawaban), 2); ?></span>
-                  </th>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
+    <!-- LIKERT ANSWERS SECTION -->
+	<?php if (!empty($jawaban_likert)): ?>
+	  <div class="row mb-5">
+		<div class="col-md-8">
+		  <div class="table-responsive">
+			<table class="table table-hover table-cute">
+			  <thead>
+				<tr>
+				  <th>Pertanyaan</th>
+				  <th class="text-center" width="100">Nilai</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<?php
+				$total = 0;
+				foreach ($jawaban_likert as $j):
+				  $total += $j->jawaban;
+				?>
+				  <tr>
+					<td><?php echo $j->pertanyaan; ?></td>
+					<td class="text-center">
+					  <?php
+					  $bgColor = '';
+					  $textColor = 'text-white';
+					  if ($j->jawaban == 1) $bgColor = 'bg-danger';
+					  elseif ($j->jawaban == 2) $bgColor = 'bg-warning';
+					  elseif ($j->jawaban == 3) $bgColor = 'bg-info';
+					  elseif ($j->jawaban == 4) $bgColor = 'bg-primary';
+					  elseif ($j->jawaban == 5) $bgColor = 'bg-success';
+					  ?>
+					  <span class="badge rounded-pill <?php echo $bgColor; ?> <?php echo $textColor; ?> px-3 py-2"><?php echo $j->jawaban; ?></span>
+					</td>
+				  </tr>
+				<?php endforeach; ?>
+			  </tbody>
+			  <tfoot>
+				<tr>
+				  <th>Rata-rata</th>
+				  <th class="text-center">
+					<span class="badge rounded-pill bg-dark px-3 py-2">
+					  <?php echo number_format($total / count($jawaban_likert), 2); ?></span>
+				  </th>
+				</tr>
+			  </tfoot>
+			</table>
+		  </div>
+		</div>
 
-        <div class="col-md-4">
-          <div class="card border-0 shadow-sm">
-            <div class="card-body">
-              <h4 class="card-title h6 fw-bold mb-3">Visualisasi Jawaban</h4>
-              <canvas id="jawabanChart"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    <?php else: ?>
-      <div class="alert alert-info" role="alert">
-        <i class="bi bi-info-circle me-2"></i> Tidak ada data jawaban.
-      </div>
-    <?php endif; ?>
+		<div class="col-md-4">
+		  <div class="card border-0 shadow-sm">
+			<div class="card-body">
+			  <h4 class="card-title h6 fw-bold mb-3">Visualisasi Jawaban</h4>
+			  <canvas id="jawabanChart"></canvas>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	<?php endif; ?>
+	<?php if (!empty($jawaban_tekstual)): ?>
+	  <div class="mt-4">
+		<h4 class="mb-3 fw-bold">Jawaban Teks / Esai</h4>
+		<div class="table-responsive">
+		  <table class="table table-striped table-bordered">
+			<thead>
+			  <tr>
+				<th width="40%">Pertanyaan</th>
+				<th>Jawaban</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <?php foreach ($jawaban_tekstual as $j): ?>
+				<tr>
+				  <td><?php echo $j->pertanyaan; ?></td>
+				  <td><?php echo nl2br(htmlspecialchars($j->jawaban)); ?></td>
+				</tr>
+			  <?php endforeach; ?>
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	<?php endif; ?>
+
 
     <div class="mt-4">
       <a href="<?php echo base_url('dashboard/hasil'); ?>" class="btn btn-secondary cute-btn">

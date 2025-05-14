@@ -1,5 +1,5 @@
 <!-- Views/dashboard/index.php -->
-<div class="container py-5">
+<div class="container py-5 main-content">
   <div class="paper-card p-4 p-md-5">
     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
       <h2 class="fw-bold mb-0">Dashboard Kuesioner</h2>

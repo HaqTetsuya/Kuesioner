@@ -182,6 +182,9 @@
         .validation-error {
             border-left: 4px solid #dc3545;
         }
+		
+		
+		
     </style>
 </head>
 

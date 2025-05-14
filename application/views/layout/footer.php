@@ -1,3 +1,5 @@
+		</div>
+    </div>
 <footer class="footer-container">
     <div class="container-fluid">
         <div class="row">
@@ -36,7 +38,6 @@
         </div>
     </div>
 </footer>
-</div>
 <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content paper-card border-0">
@@ -55,15 +56,15 @@
         </div>
     </div>
 </div>
-
+</div>
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        <?php if (!empty($jawaban)): ?>
+        <?php if (!empty($jawaban_likert)): ?>
             // Prepare data for chart
             const labels = [];
             const values = [];
@@ -75,7 +76,7 @@
                 'rgba(32, 201, 151, 0.7)' // teal
             ];
 
-            <?php foreach ($jawaban as $j): ?>
+            <?php foreach ($jawaban_likert as $j): ?>
                 labels.push("Q<?php echo $j->id; ?>");
                 values.push(<?php echo $j->nilai; ?>);
             <?php endforeach; ?>
