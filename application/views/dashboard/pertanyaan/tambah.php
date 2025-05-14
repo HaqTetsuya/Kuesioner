@@ -1,24 +1,30 @@
-<div class="container" style="margin: 20px auto; max-width: 800px;">
-    <div class="card" style="border: 1px solid #000; background: #fff; padding: 20px; border-radius: 5px;">
-        <h2 style="margin-bottom: 20px;">Tambah Pertanyaan Baru</h2>
-        
-        <?php if(validation_errors()): ?>
-            <div style="background: #ffe6e6; border: 1px solid #ff0000; padding: 10px; margin-bottom: 15px;">
-                <?php echo validation_errors(); ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php echo form_open('dashboard/pertanyaan/simpan'); ?>
-            <div style="margin-bottom: 15px;">
-                <label for="pertanyaan" style="display: block; margin-bottom: 5px;">Pertanyaan:</label>
-                <textarea name="pertanyaan" rows="4" style="width: 100%; padding: 8px; border: 1px solid #ccc;"><?php echo set_value('pertanyaan'); ?></textarea>
-                <small style="display: block; margin-top: 5px; color: #666;">Masukkan pertanyaan untuk kuesioner skala Likert.</small>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <button type="submit" style="background: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; margin-right: 10px;">Simpan Pertanyaan</button>
-                <a href="<?php echo base_url('dashboard/pertanyaan'); ?>" style="background: #6c757d; color: white; text-decoration: none; padding: 10px 15px;">Batal</a>
-            </div>
-        <?php echo form_close(); ?>
+<div class="container py-5">
+  <div class="paper-card p-4 p-md-5">
+    <div class="mb-4 pb-3 border-bottom">
+      <h2 class="fw-bold mb-0">Tambah Pertanyaan Baru</h2>
     </div>
+    
+    <?php if(validation_errors()): ?>
+      <div class="alert alert-danger validation-error" role="alert">
+        <?php echo validation_errors(); ?>
+      </div>
+    <?php endif; ?>
+    
+    <?php echo form_open('dashboard/pertanyaan/simpan'); ?>
+      <div class="mb-4">
+        <label for="pertanyaan" class="form-label fw-medium">Pertanyaan:</label>
+        <textarea name="pertanyaan" id="pertanyaan" rows="4" class="form-control" placeholder="Masukkan pertanyaan untuk kuesioner skala Likert"><?php echo set_value('pertanyaan'); ?></textarea>
+        <div class="form-text">Masukkan pertanyaan untuk kuesioner skala Likert.</div>
+      </div>
+      
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-success cute-btn">
+          <i class="bi bi-save me-1"></i> Simpan Pertanyaan
+        </button>
+        <a href="<?php echo base_url('dashboard/pertanyaan'); ?>" class="btn btn-outline-secondary cute-btn">
+          <i class="bi bi-x-circle me-1"></i> Batal
+        </a>
+      </div>
+    <?php echo form_close(); ?>
+  </div>
 </div>

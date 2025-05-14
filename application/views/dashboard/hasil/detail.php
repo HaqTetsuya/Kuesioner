@@ -1,62 +1,115 @@
-<div class="container" style="margin: 20px auto; max-width: 800px;">
-    <div class="card" style="border: 1px solid #000; background: #fff; padding: 20px; border-radius: 5px;">
-        <h2 style="margin-bottom: 20px;">Detail Jawaban Responden</h2>
-        
-        <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border: 1px solid #eee;">
-            <h3 style="margin-top: 0;">Informasi Responden</h3>
-            <table style="width: 100%;">
-                <tr>
-                    <td style="padding: 5px 0; width: 150px;"><strong>Nama</strong></td>
-                    <td>: <?php echo $responden->nama; ?></td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 0;"><strong>Email</strong></td>
-                    <td>: <?php echo $responden->email; ?></td>
-                </tr>
-                <tr>
-                    <td style="padding: 5px 0;"><strong>Tanggal Pengisian</strong></td>
-                    <td>: <?php echo date('d-m-Y H:i', strtotime($responden->tanggal)); ?></td>
-                </tr>
-            </table>
-        </div>
-        
-        <h3>Jawaban</h3>
-        
-        <?php if(!empty($jawaban)): ?>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Pertanyaan</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 100px;">Nilai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($jawaban as $j): ?>
-                        <tr>
-                            <td style="border: 1px solid #ddd; padding: 8px;"><?php echo $j->pertanyaan; ?></td>
-                            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
-                                <?php 
-                                    $color = '';
-                                    if($j->nilai == 1) $color = '#dc3545';
-                                    elseif($j->nilai == 2) $color = '#fd7e14';
-                                    elseif($j->nilai == 3) $color = '#ffc107';
-                                    elseif($j->nilai == 4) $color = '#28a745';
-                                    elseif($j->nilai == 5) $color = '#20c997';
-                                ?>
-                                <span style="font-weight: bold; color: <?php echo $color; ?>;"><?php echo $j->nilai; ?></span>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <div style="text-align: center; padding: 20px;">
-                <p>Tidak ada data jawaban.</p>
-            </div>
-        <?php endif; ?>
-        
-        <div style="margin-top: 20px;">
-            <a href="<?php echo base_url('dashboard/hasil'); ?>" style="background: #6c757d; color: white; text-decoration: none; padding: 8px 15px;">Kembali ke Daftar Hasil</a>
-        </div>
+<div class="container py-5">
+  <div class="paper-card p-4 p-md-5">
+    <div class="mb-4 pb-3 border-bottom">
+      <h2 class="fw-bold mb-0">Detail Jawaban Responden</h2>
     </div>
+
+    <div class="card bg-light border-0 mb-4">
+      <div class="card-body">
+        <h3 class="card-title h5 mb-3 fw-bold">Informasi Responden</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-borderless mb-0">
+              <tr>
+                <td style="width: 150px;"><strong>Nama</strong></td>
+                <td>: <?php echo $responden->nama; ?></td>
+              </tr>
+              <tr>
+                <td><strong>Email</strong></td>
+                <td>: <?php echo $responden->email; ?></td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-borderless mb-0">
+              <tr>
+                <td style="width: 150px;"><strong>Tanggal Pengisian</strong></td>
+                <td>: <?php echo date('d-m-Y H:i', strtotime($responden->tanggal)); ?></td>
+              </tr>
+              <tr>
+                <td><strong>ID Responden</strong></td>
+                <td>: <?php echo $responden->id; ?></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="fw-bold fs-4 mb-3">Jawaban</h3>
+
+    <?php if (!empty($jawaban)): ?>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="table-responsive">
+            <table class="table table-hover table-cute">
+              <thead>
+                <tr>
+                  <th>Pertanyaan</th>
+                  <th class="text-center" width="100">Nilai</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $total = 0;
+                foreach ($jawaban as $j):
+                  $total += $j->nilai;
+                ?>
+                  <tr>
+                    <td><?php echo $j->pertanyaan; ?></td>
+                    <td class="text-center">
+                      <?php
+                      $bgColor = '';
+                      $textColor = 'text-white';
+                      if ($j->nilai == 1) $bgColor = 'bg-danger';
+                      elseif ($j->nilai == 2) $bgColor = 'bg-warning';
+                      elseif ($j->nilai == 3) $bgColor = 'bg-info';
+                      elseif ($j->nilai == 4) $bgColor = 'bg-primary';
+                      elseif ($j->nilai == 5) $bgColor = 'bg-success';
+                      ?>
+                      <span class="badge rounded-pill <?php echo $bgColor; ?> <?php echo $textColor; ?> px-3 py-2"><?php echo $j->nilai; ?></span>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Rata-rata</th>
+                  <th class="text-center">
+                    <span class="badge rounded-pill bg-dark px-3 py-2">
+                      <?php echo number_format($total / count($jawaban), 2); ?></span>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title h6 fw-bold mb-3">Visualisasi Jawaban</h4>
+              <canvas id="jawabanChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php else: ?>
+      <div class="alert alert-info" role="alert">
+        <i class="bi bi-info-circle me-2"></i> Tidak ada data jawaban.
+      </div>
+    <?php endif; ?>
+
+    <div class="mt-4">
+      <a href="<?php echo base_url('dashboard/hasil'); ?>" class="btn btn-secondary cute-btn">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Hasil
+      </a>
+
+      <div class="float-end">
+        <button class="btn btn-primary cute-btn" id="printResultBtn">
+          <i class="bi bi-printer me-1"></i> Cetak
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,40 +1,60 @@
-<div class="container" style="margin: 20px auto; max-width: 1000px;">
-    <div class="card" style="border: 1px solid #000; background: #fff; padding: 20px; border-radius: 5px;">
-        <h2 style="margin-bottom: 20px;">Hasil Kuesioner</h2>
-        
-        <?php if(!empty($responden)): ?>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left; width: 50px;">ID</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Nama</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Email</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Tanggal Pengisian</th>
-                        <th style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 100px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach($responden as $r): ?>
-                        <tr>
-                            <td style="border: 1px solid #ddd; padding: 8px;"><?php echo $r->id; ?></td>
-                            <td style="border: 1px solid #ddd; padding: 8px;"><?php echo $r->nama; ?></td>
-                            <td style="border: 1px solid #ddd; padding: 8px;"><?php echo $r->email; ?></td>
-                            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><?php echo date('d-m-Y H:i', strtotime($r->tanggal)); ?></td>
-                            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">
-                                <a href="<?php echo base_url('dashboard/hasil/detail/'.$r->id); ?>" style="background: #17a2b8; color: white; text-decoration: none; padding: 5px 10px;">Detail</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <div style="text-align: center; padding: 20px;">
-                <p>Belum ada data responden.</p>
-            </div>
-        <?php endif; ?>
-        
-        <div style="margin-top: 20px;">
-            <a href="<?php echo base_url('dashboard'); ?>" style="background: #6c757d; color: white; text-decoration: none; padding: 8px 15px;">Kembali ke Dashboard</a>
-        </div>
+<div class="container py-5">
+  <div class="paper-card p-4 p-md-5">
+    <div class="mb-4 pb-3 border-bottom">
+      <h2 class="fw-bold mb-0">Hasil Kuesioner</h2>
     </div>
+    
+    <?php if(!empty($responden)): ?>
+      <div class="mb-4">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="text" id="searchResponden" class="form-control" placeholder="Cari berdasarkan nama atau email...">
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table table-hover table-cute" id="respondenTable">
+          <thead>
+            <tr>
+              <th width="60">ID</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th class="text-center">Tanggal Pengisian</th>
+              <th class="text-center" width="100">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($responden as $r): ?>
+              <tr>
+                <td><?php echo $r->id; ?></td>
+                <td><?php echo $r->nama; ?></td>
+                <td><?php echo $r->email; ?></td>
+                <td class="text-center"><?php echo date('d-m-Y H:i', strtotime($r->tanggal)); ?></td>
+                <td class="text-center">
+                  <a href="<?php echo base_url('dashboard/hasil/detail/'.$r->id); ?>" class="btn btn-sm btn-info cute-btn text-white">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
+    <?php else: ?>
+      <div class="text-center py-5">
+        <div class="display-3 text-muted mb-3">
+          <i class="bi bi-emoji-dizzy"></i>
+        </div>
+        <p class="fs-5">Belum ada data responden.</p>
+      </div>
+    <?php endif; ?>
+    
+    <div class="mt-4">
+      <a href="<?php echo base_url('dashboard'); ?>" class="btn btn-secondary cute-btn">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+      </a>
+    </div>
+  </div>
 </div>
