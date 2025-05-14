@@ -230,7 +230,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">Keluar</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('auth/logout'); ?>">Keluar</a></li>
                         </ul>
                     </div>
                 </div>

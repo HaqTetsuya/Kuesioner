@@ -70,7 +70,13 @@ class Dashboard extends CI_Controller
     public function edit_pertanyaan($id)
     {
         $data['pertanyaan'] = $this->kuesioner_model->get_pertanyaan($id);
-        $this->render('dashboard/pertanyaan/edit', $data);
+		
+		$jumlah_jawaban = $this->kuesioner_model->count_by_pertanyaan($id);
+
+		$is_radio_editable = ($jumlah_jawaban === 0);
+
+		$data['is_radio_editable'] = $is_radio_editable;
+        $this->render('dashboard/pertanyaan/edit2', $data);
     }
 
     public function update_pertanyaan($id)

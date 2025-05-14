@@ -232,6 +232,19 @@ class Kuesioner_model extends CI_Model
 		// Ambil 20 kata teratas
 		return array_slice($word_count, 0, 20, true);
 	}	
+	// models/Jawaban_model.php
+
+	public function count_by_pertanyaan($id)
+	{
+		$count1 = $this->db->where('pertanyaan_id', $id)
+						   ->count_all_results('jawaban_likert');
+
+		$count2 = $this->db->where('pertanyaan_id', $id)
+						   ->count_all_results('jawaban_tekstual');
+
+		return $count1 + $count2;
+	}
+
 
 
 
