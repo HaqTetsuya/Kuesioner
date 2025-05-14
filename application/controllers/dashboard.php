@@ -130,22 +130,48 @@ class Dashboard extends CI_Controller
 	
 	public function detail_pertanyaan($pertanyaan_id)
 	{
-		
-		$data = $this->kuesioner_model->get_detail_by_pertanyaan($pertanyaan_id);
-
-		if (!$data) {
-			show_404();
+		// Validasi ID pertanyaan
+		if(!is_numeric($pertanyaan_id)) {
+			$this->session->set_flashdata('error', 'ID pertanyaan tidak valid');
+			redirect('dashboard/hasil');
 		}
-
+		
+		// Ambil detail pertanyaan dan jawaban
+		$data = $this->kuesioner_model->get_detail_by_pertanyaan($pertanyaan_id);
+		
+		if (!$data) {
+			$this->session->set_flashdata('error', 'Data pertanyaan tidak ditemukan');
+			redirect('dashboard/hasil');
+		}
+		
+		// Load view dengan data
 		$this->render('dashboard/hasil/detail_pertanyaan', $data);
 	}
-
 	
+	public function detail_pertanyaan_text($pertanyaan_id)
+	{
+		// Validasi ID pertanyaan
+		if(!is_numeric($pertanyaan_id)) {
+			$this->session->set_flashdata('error', 'ID pertanyaan tidak valid');
+			redirect('dashboard/hasil');
+		}
+		
+		// Ambil detail pertanyaan dan jawaban
+		$data = $this->kuesioner_model->get_detail_by_pertanyaan($pertanyaan_id);
+		
+		if (!$data) {
+			$this->session->set_flashdata('error', 'Data pertanyaan tidak ditemukan');
+			redirect('dashboard/hasil');
+		}
+		
+		// Load view dengan data
+		$this->render('dashboard/hasil/detail_pertanyaan_text', $data);
+	}
 
 
-    public function statistik()
+    /*public function statistik()
     {
         $data['statistik'] = $this->kuesioner_model->get_statistik_jawaban();
         $this->render('dashboard/statistik', $data);
-    }
+    }*/
 }

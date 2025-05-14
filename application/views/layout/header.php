@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+	<script src="https://cdn.anychart.com/releases/8.11.0/js/anychart-bundle.min.js"></script>
 
 
     <style>
