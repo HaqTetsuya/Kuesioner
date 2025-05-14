@@ -103,14 +103,30 @@ class Dashboard extends CI_Controller
         $this->render('dashboard/hasil/index', $data);
     }
 
-    public function detail_jawaban($responden_id)
-    {
-        $data = [
-            'responden' => $this->db->get_where('responden', ['id' => $responden_id])->row(),
-            'jawaban'   => $this->kuesioner_model->get_detail_jawaban($responden_id)
-        ];
-        $this->render('dashboard/hasil/detail', $data);
-    }
+	public function detail_jawaban($responden_id)
+	{
+		$all_jawaban = $this->kuesioner_model->get_detail_jawaban($responden_id);
+
+		$jawaban_likert = [];
+		$jawaban_tekstual = [];
+
+		foreach ($all_jawaban as $j) {
+			if ($j->type === 'likert') {
+				$jawaban_likert[] = $j;
+			} elseif ($j->type === 'text') {
+				$jawaban_tekstual[] = $j;
+			}
+		}
+
+		$data = [
+			'responden'         => $this->db->get_where('responden', ['id' => $responden_id])->row(),
+			'jawaban_likert'    => $jawaban_likert,
+			'jawaban_tekstual'  => $jawaban_tekstual
+		];
+
+		$this->render('dashboard/hasil/detail', $data);
+	}
+
 
     public function statistik()
     {
