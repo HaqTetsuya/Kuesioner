@@ -99,9 +99,10 @@ class Kuesioner_model extends CI_Model
     } */
 
     public function get_detail_jawaban($responden_id)
+	
     {
-        // Query for likert answers
-        $this->db->select('p.pertanyaan, j.nilai as jawaban, p.type');
+        // Query for likert answers		
+        $this->db->select('p.id, p.pertanyaan, j.nilai as jawaban, p.type');
         $this->db->from('jawaban_likert j');
         $this->db->join('pertanyaan p', 'p.id = j.pertanyaan_id');
         $this->db->where('j.responden_id', $responden_id);
@@ -131,6 +132,37 @@ class Kuesioner_model extends CI_Model
 
 		return $query->result();
 	}
+	
+	public function get_detail_by_pertanyaan($pertanyaan_id)
+	{
+		// First, get the question itself (to know the type)
+		$pertanyaan = $this->db->get_where('pertanyaan', ['id' => $pertanyaan_id])->row();
+
+		if (!$pertanyaan) return null;
+
+		if ($pertanyaan->type == 'likert') {
+			// Get all likert answers for this question
+			$this->db->select('r.nama as responden, j.nilai as jawaban, r.id as responden_id');
+			$this->db->from('jawaban_likert j');
+			$this->db->join('responden r', 'r.id = j.responden_id');
+			$this->db->where('j.pertanyaan_id', $pertanyaan_id);
+			$jawaban = $this->db->get()->result();
+		} else {
+			// Get all textual answers for this question
+			$this->db->select('r.nama as responden, j.jawaban as jawaban, r.id as responden_id');
+			$this->db->from('jawaban_tekstual j');
+			$this->db->join('responden r', 'r.id = j.responden_id');
+			$this->db->where('j.pertanyaan_id', $pertanyaan_id);
+			$jawaban = $this->db->get()->result();
+		}
+
+		return [
+			'pertanyaan' => $pertanyaan,
+			'jawaban' => $jawaban
+		];
+	}
+
+
 
 
     /* Mendapatkan statistik hasil jawaban

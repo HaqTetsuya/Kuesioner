@@ -57,6 +57,7 @@ class Dashboard extends CI_Controller
             $this->render('dashboard/pertanyaan/tambah');
         } else {
             $data = [
+				'type' => $this->input->post('tipe'),
                 'pertanyaan' => $this->input->post('pertanyaan'),
                 'created_at' => date('Y-m-d H:i:s')
             ];
@@ -126,6 +127,20 @@ class Dashboard extends CI_Controller
 
 		$this->render('dashboard/hasil/detail', $data);
 	}
+	
+	public function detail_pertanyaan($pertanyaan_id)
+	{
+		
+		$data = $this->kuesioner_model->get_detail_by_pertanyaan($pertanyaan_id);
+
+		if (!$data) {
+			show_404();
+		}
+
+		$this->render('dashboard/hasil/detail_pertanyaan', $data);
+	}
+
+	
 
 
     public function statistik()

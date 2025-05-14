@@ -69,6 +69,7 @@
                 <th class="text-center">Rata-rata Nilai</th>
                 <th class="text-center">Jumlah Responden</th>
                 <th class="text-center">Visualisasi</th>
+				<th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -94,6 +95,11 @@
                            aria-valuenow="<?php echo $s->rata_rata; ?>" aria-valuemin="0" aria-valuemax="5"></div>
                     </div>
                   </td>
+					<td class="text-center">
+					  <a href="<?= base_url('dashboard/detail_pertanyaan/' . $s->id); ?>" class="btn btn-sm btn-info cute-btn text-white">
+						<i class="bi bi-eye"></i>
+					  </a>
+					</td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

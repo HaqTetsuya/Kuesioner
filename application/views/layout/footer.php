@@ -62,60 +62,63 @@
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/main.js'); ?>"></script>
+
+<?php if (!empty($jawaban_likert)): ?>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        <?php if (!empty($jawaban_likert)): ?>
-            // Prepare data for chart
-            const labels = [];
-            const values = [];
-            const backgroundColors = [
-                'rgba(220, 53, 69, 0.7)', // danger
-                'rgba(253, 126, 20, 0.7)', // warning
-                'rgba(255, 193, 7, 0.7)', // yellow
-                'rgba(40, 167, 69, 0.7)', // success
-                'rgba(32, 201, 151, 0.7)' // teal
-            ];
+	document.addEventListener('DOMContentLoaded', function() {
+		const labels = [];
+		const values = [];
+		const backgroundColors = [
+			'rgba(220, 53, 69, 0.7)',
+			'rgba(253, 126, 20, 0.7)',
+			'rgba(255, 193, 7, 0.7)',
+			'rgba(40, 167, 69, 0.7)',
+			'rgba(32, 201, 151, 0.7)'
+		];
 
-            <?php foreach ($jawaban_likert as $j): ?>
-                labels.push("Q<?php echo $j->id; ?>");
-                values.push(<?php echo $j->nilai; ?>);
-            <?php endforeach; ?>
+		<?php foreach ($jawaban_likert as $j): ?>
+			labels.push("Q<?php echo $j->id; ?>");
+			values.push(<?php echo $j->jawaban; ?>);
+		<?php endforeach; ?>
 
-            // Create chart
-            const ctx = document.getElementById('jawabanChart').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Nilai Jawaban',
-                        data: values,
-                        backgroundColor: backgroundColors,
-                        borderColor: backgroundColors.map(color => color.replace('0.7', '1')),
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 5,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
+		const ctx = document.getElementById('jawabanChart').getContext('2d');
+		const myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: labels,
+				datasets: [{
+					label: 'Nilai Jawaban',
+					data: values,
+					backgroundColor: backgroundColors,
+					borderColor: backgroundColors.map(c => c.replace('0.7', '1')),
+					borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				scales: {
+					y: {
+						beginAtZero: true,
+						max: 5,
+						ticks: {
+							stepSize: 1
+						}
+					}
+				}
+			}
+		});
 
-            // Print functionality
-            document.getElementById('printResultBtn').addEventListener('click', function() {
-                window.print();
-            });
-        <?php endif; ?>
-    });
+		const printBtn = document.getElementById('printResultBtn');
+		if (printBtn) {
+			printBtn.addEventListener('click', function() {
+				window.print();
+			});
+		}
+	});
 </script>
+<?php endif; ?>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchResponden');
