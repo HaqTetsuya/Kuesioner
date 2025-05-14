@@ -121,17 +121,29 @@ class Kuesioner_model extends CI_Model
 
 	public function get_statistik_jawaban() {
 		$query = $this->db->query('
-			SELECT p.id, p.pertanyaan, 
-				   AVG(j.nilai) as rata_rata, 
-				   COUNT(j.id) as jumlah_jawaban
+			SELECT 
+				p.id, 
+				p.pertanyaan,
+				p.type,
+				CASE 
+					WHEN p.type = "likert" THEN AVG(jl.nilai)
+					ELSE NULL
+				END as rata_rata,
+				CASE 
+					WHEN p.type = "likert" THEN COUNT(jl.id)
+					WHEN p.type = "text" THEN COUNT(jt.id)
+					ELSE 0
+				END as jumlah_jawaban
 			FROM pertanyaan p
-			LEFT JOIN jawaban_likert j ON p.id = j.pertanyaan_id
-			WHERE p.type = "likert"
-			GROUP BY p.id, p.pertanyaan
+			LEFT JOIN jawaban_likert jl ON p.id = jl.pertanyaan_id
+			LEFT JOIN jawaban_tekstual jt ON p.id = jt.pertanyaan_id
+			GROUP BY p.id, p.pertanyaan, p.type
+			ORDER BY p.id;
+
 		');
 
 		return $query->result();
-	}
+}
 	
 	public function get_detail_by_pertanyaan($pertanyaan_id)
 	{

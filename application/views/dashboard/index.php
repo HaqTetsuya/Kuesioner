@@ -57,7 +57,7 @@
       </div>
     </div>
     
-    <div class="mt-5">
+	<div class="mt-5">
       <h3 class="fw-bold fs-4 mb-3">Statistik Singkat</h3>
       
       <?php if(!empty($statistik)): ?>
@@ -66,40 +66,58 @@
             <thead>
               <tr>
                 <th>Pertanyaan</th>
+                <th class="text-center">Tipe</th>
                 <th class="text-center">Rata-rata Nilai</th>
                 <th class="text-center">Jumlah Responden</th>
                 <th class="text-center">Visualisasi</th>
-				<th class="text-center">Action</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
               <?php foreach($statistik as $s): ?>
                 <tr>
                   <td><?php echo $s->pertanyaan; ?></td>
+                  <td class="text-center">
+                    <?php echo ($s->type == 'likert') ? 'Likert' : 'Tekstual'; ?>
+                  </td>
                   <td class="text-center fw-bold">
-                    <?php 
-                    $nilai = number_format($s->rata_rata, 2);
-                    $class = '';
-                    if($nilai < 2) $class = 'text-danger';
-                    elseif($nilai < 3) $class = 'text-warning';
-                    elseif($nilai < 4) $class = 'text-info';
-                    else $class = 'text-success';
-                    ?>
-                    <span class="<?php echo $class; ?>"><?php echo $nilai; ?></span>
+                    <?php if($s->type == 'likert'): ?>
+                      <?php 
+                      $nilai = number_format($s->rata_rata, 2);
+                      $class = '';
+                      if($nilai < 2) $class = 'text-danger';
+                      elseif($nilai < 3) $class = 'text-warning';
+                      elseif($nilai < 4) $class = 'text-info';
+                      else $class = 'text-success';
+                      ?>
+                      <span class="<?php echo $class; ?>"><?php echo $nilai; ?></span>
+                    <?php else: ?>
+                      <span class="text-muted">-</span>
+                    <?php endif; ?>
                   </td>
                   <td class="text-center"><?php echo $s->jumlah_jawaban; ?></td>
                   <td>
-                    <div class="progress" style="height: 10px;">
-                      <div class="progress-bar bg-info" role="progressbar" 
-                           style="width: <?php echo ($s->rata_rata / 5) * 100; ?>%" 
-                           aria-valuenow="<?php echo $s->rata_rata; ?>" aria-valuemin="0" aria-valuemax="5"></div>
-                    </div>
+                    <?php if($s->type == 'likert'): ?>
+                      <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-info" role="progressbar" 
+                             style="width: <?php echo ($s->rata_rata / 5) * 100; ?>%" 
+                             aria-valuenow="<?php echo $s->rata_rata; ?>" aria-valuemin="0" aria-valuemax="5"></div>
+                      </div>
+                    <?php else: ?>
+                      <span class="text-muted">-</span>
+                    <?php endif; ?>
                   </td>
-					<td class="text-center">
-					  <a href="<?= base_url('dashboard/detail_pertanyaan/' . $s->id); ?>" class="btn btn-sm btn-info cute-btn text-white">
-						<i class="bi bi-eye"></i>
-					  </a>
-					</td>
+                  <td class="text-center">
+				  <?php if($s->type == 'likert'): ?>
+                    <a href="<?= base_url('dashboard/detail_pertanyaan/' . $s->id); ?>" class="btn btn-sm btn-info cute-btn text-white">
+                      <i class="bi bi-eye"></i>
+                    </a>
+					<?php elseif($s->type == 'text'): ?>
+					<a href="<?= base_url('dashboard/detail_pertanyaan_text/' . $s->id); ?>" class="btn btn-sm btn-info cute-btn text-white">
+                      <i class="bi bi-eye"></i>
+                    </a>
+					<?php endif; ?>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
@@ -110,6 +128,7 @@
           <i class="bi bi-info-circle me-2"></i> Belum ada data kuesioner.
         </div>
       <?php endif; ?>
-    </div>
+    </div>	
+    
   </div>
 </div>
