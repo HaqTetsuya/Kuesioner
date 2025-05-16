@@ -88,6 +88,7 @@ class Dashboard extends CI_Controller
             $this->render('dashboard/pertanyaan/edit', $data);
         } else {
             $data = [
+				'type' => $this->input->post('tipe'),
                 'pertanyaan' => $this->input->post('pertanyaan'),
                 'updated_at' => date('Y-m-d H:i:s')
             ];

@@ -91,7 +91,7 @@ class Publics extends CI_Controller
     public function thank_you()
     {        
         
-
+		$responden_id= $this->session->userdata('responden_id');
         $all_jawaban = $this->kuesioner_model->get_detail_jawaban($responden_id);
 
         $jawaban_likert = [];
