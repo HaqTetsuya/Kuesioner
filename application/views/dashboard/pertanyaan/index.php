@@ -19,8 +19,9 @@
         <table class="table table-hover table-cute">
           <thead>
             <tr>
-              <th width="60">ID</th>
+              <th width="50">ID</th>
               <th>Pertanyaan</th>
+			  <th class="text-center" width="70">Tipe</th>
               <th class="text-center" width="200">Tanggal Dibuat</th>
               <th class="text-center" width="150">Aksi</th>
             </tr>
@@ -30,6 +31,7 @@
               <tr>
                 <td><?php echo $p->id; ?></td>
                 <td><?php echo $p->pertanyaan; ?></td>
+				<td class="text-center"><?php echo $p->type; ?></td>
                 <td class="text-center"><?php echo date('d-m-Y', strtotime($p->created_at)); ?></td>
                 <td>
                   <div class="d-flex justify-content-center gap-2">
