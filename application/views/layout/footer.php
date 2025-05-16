@@ -61,6 +61,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 
 <?php if (!empty($jawaban_likert)): ?>
@@ -117,6 +118,109 @@
 	});
 </script>
 <?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // ========== DATATABLE ==========
+    if (document.getElementById('tabelJawabanText')) {
+        var table = $('#tabelJawabanText').DataTable({
+            responsive: true,
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                zeroRecords: "Tidak ada data yang ditemukan",
+                info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+                infoEmpty: "Tidak ada data yang tersedia",
+                infoFiltered: "(difilter dari _MAX_ total data)",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                }
+            }
+        });
+
+        // ========== EXPORT TO CSV ==========
+        if (document.getElementById('btnExportCSV')) {
+            $('#btnExportCSV').on('click', function () {
+                var csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "No,Responden,Jawaban,Tanggal\n";
+
+                <?php if (!empty($jawaban_text)): ?>
+                    <?php $no = 1; foreach ($jawaban_text as $j): ?>
+                        csvContent += '<?= $no++ ?>,';
+                        csvContent += "<?= '"' . addslashes($j->responden_nama ?? 'Unknown') . '"' ?>,";
+                        csvContent += "<?= '"' . addslashes(str_replace(array("\r", "\n"), " ", $j->jawaban)) . '"' ?>,";
+                        csvContent += "<?= '"' . date('d M Y', strtotime($j->created_at)) . '"' ?>\n";
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "jawaban_text_<?= $pertanyaan->id ?>.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+
+        // ========== PRINT BUTTON ==========
+        if (document.getElementById('btnPrint')) {
+            $('#btnPrint').on('click', function () {
+                window.print();
+            });
+        }
+    }
+
+    // ========== WORD CLOUD ==========
+    <?php if (!empty($kata_kunci)): ?>
+        if (document.getElementById('wordCloud')) {
+            var wordCloudData = [
+                <?php foreach ($kata_kunci as $word => $count): ?>
+                    { text: "<?= $word ?>", weight: <?= $count ?> },
+                <?php endforeach; ?>
+            ];
+
+            if (typeof(anychart) !== 'undefined') {
+                var chart = anychart.tagCloud(wordCloudData);
+                chart.angles([0]);
+                chart.colorRange(true);
+                chart.colorRange().length('80%');
+                chart.container("wordCloud");
+                chart.draw();
+            } else if (document.getElementById('wordCloudContainer')) {
+                document.getElementById('wordCloudContainer').innerHTML = '<div class="alert alert-warning">AnyChart library tidak tersedia. Silakan tambahkan library ini untuk menampilkan word cloud.</div>';
+            }
+        }
+    <?php endif; ?>
+
+    // ========== TAG BUTTONS FUNCTIONALITY ==========
+    if (document.querySelector('.btn-tag')) {
+        $('.btn-tag').on('click', function () {
+            var id = $(this).data('id');
+            var tag = $(this).data('tag');
+
+            alert('Jawaban #' + id + ' telah ditandai sebagai "' + tag + '"');
+
+            $(this)
+                .removeClass('btn-outline-' + getTagClass(tag))
+                .addClass('btn-' + getTagClass(tag));
+        });
+
+        function getTagClass(tag) {
+            switch (tag) {
+                case 'kelebihan': return 'success';
+                case 'kekurangan': return 'danger';
+                case 'saran': return 'info';
+                default: return 'secondary';
+            }
+        }
+    }
+});
+</script>
+
 
 
 <script>
