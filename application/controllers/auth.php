@@ -36,7 +36,7 @@ class Auth extends CI_Controller
                     );
                     $this->session->set_userdata($data_session);
 
-                    redirect('dashboard');
+                    redirect('publics');
                 } else {
                     // Wrong password
                     redirect('auth/login?alert=password_salah');
@@ -108,7 +108,7 @@ class Auth extends CI_Controller
 		$this->session->set_userdata($data_session);
 
 		// Redirect to welcome page
-		redirect('dashboard');
+		redirect('publics');
 	}
 
 	

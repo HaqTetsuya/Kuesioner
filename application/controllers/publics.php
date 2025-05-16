@@ -32,9 +32,7 @@ class Publics extends CI_Controller
         //$data['pertanyaan'] = $this->kuesioner_model->get_all_pertanyaan();		
         $data['pertanyaan'] = $this->kuesioner_model->get_pertanyaan_likert();
         $data['pertanyaan_text'] = $this->kuesioner_model->get_pertanyaan_text();
-        $this->load->view('layout/header', $data);
-        $this->load->view('public/kuesioner_form', $data);
-        $this->load->view('layout/footer', $data);
+        $this->render('public/kuesioner_form', $data);
     }
 
     // Proses simpan jawaban kuesioner
@@ -60,9 +58,7 @@ class Publics extends CI_Controller
             $data['pertanyaan_text'] = $pertanyaan_text;
             $data['user'] = $this->user_model->get_user_data();
 
-            $this->load->view('template/header');
-            $this->load->view('public/kuesioner_form', $data);
-            $this->load->view('template/footer');
+            $this->render('public/kuesioner_form', $data);
         } else {
 
             $data = [
