@@ -76,7 +76,7 @@ class Dashboard extends CI_Controller
 		$is_radio_editable = ($jumlah_jawaban === 0);
 
 		$data['is_radio_editable'] = $is_radio_editable;
-        $this->render('dashboard/pertanyaan/edit2', $data);
+        $this->render('dashboard/pertanyaan/edit', $data);
     }
 
     public function update_pertanyaan($id)
