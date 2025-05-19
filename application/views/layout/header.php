@@ -35,16 +35,13 @@
                     <nav class="navbar navbar-expand">
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('home'); ?>">Beranda</a>
+                                <a class="nav-link" href="<?= base_url('dashboard'); ?>">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('books'); ?>">Buku</a>
+                                <a class="nav-link" href="<?= base_url('dashboard/pertanyaan'); ?>">Questions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('authors'); ?>">Penulis</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<?= base_url('categories'); ?>">Kategori</a>
+                                <a class="nav-link" href="<?= base_url('dashboard/hasil'); ?>">Hasil</a>
                             </li>
                         </ul>
                     </nav>
