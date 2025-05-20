@@ -11,28 +11,21 @@
         <h6 class="mb-3">Menu Utama</h6>
         <ul class="nav flex-column">
           <li class="nav-item mb-2">
-            <a href="
-								<?= base_url('dashboard'); ?>" class="nav-link d-flex align-items-center">
+            <a href="<?= base_url('dashboard'); ?>" class="nav-link d-flex align-items-center">
               <i class="bi bi-house-door me-2"></i> Dashboard </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="
-								<?= base_url('books/list'); ?>" class="nav-link d-flex align-items-center">
-              <i class="bi bi-book me-2"></i> Daftar Buku </a>
+            <a href="<?= base_url('dashboard/pertanyaan'); ?>" class="nav-link d-flex align-items-center">
+              <i class="bi bi-book me-2"></i> Daftar Pertanyaan </a>
           </li>
           <li class="nav-item mb-2">
-            <a href="
-								<?= base_url('authors/list'); ?>" class="nav-link d-flex align-items-center">
-              <i class="bi bi-person me-2"></i> Daftar Penulis </a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="
-								<?= base_url('borrowing'); ?>" class="nav-link d-flex align-items-center">
-              <i class="bi bi-arrow-left-right me-2"></i> Peminjaman </a>
+            <a href="<?= base_url('dashboard/hasil'); ?>" class="nav-link d-flex align-items-center">
+              <i class="bi bi-person me-2"></i> Daftar Pengguna </a>
           </li>
         </ul>
       </div>
       <div class="mb-4">
+        <!--
         <h6 class="mb-3">Kategori Populer</h6>
         <div class="d-flex flex-wrap gap-2">
           <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Novel</a>
@@ -41,6 +34,7 @@
           <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Pendidikan</a>
           <a href="#" class="badge bg-light text-dark text-decoration-none p-2">Teknologi</a>
         </div>
+        
       </div>
       <div class="mb-4">
         <h6 class="mb-3">Statistik</h6>
@@ -61,6 +55,7 @@
           </div>
         </div>
       </div>
+      -->
       <div class="text-center mt-5">
         <a href="
 						<?= base_url('help'); ?>" class="btn btn-sm btn-outline-secondary rounded-pill">
